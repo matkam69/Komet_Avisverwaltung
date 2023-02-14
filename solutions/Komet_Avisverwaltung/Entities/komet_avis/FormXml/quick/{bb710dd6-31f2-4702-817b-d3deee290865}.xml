@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <systemform>
+    <formid>{bb710dd6-31f2-4702-817b-d3deee290865}</formid>
+    <IntroducedVersion>1.0.0.0</IntroducedVersion>
+    <FormPresentation>1</FormPresentation>
+    <FormActivationState>1</FormActivationState>
+    <form>
+      <tabs>
+        <tab verticallayout="true" id="{c474442f-3793-411e-9c67-788df36547e6}" IsUserDefined="1">
+          <labels>
+            <label description="" languagecode="1031" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showlabel="false" showbar="false" IsUserDefined="0" id="{700cfec1-231f-492b-a376-0c9b0b209b15}">
+                  <labels>
+                    <label description="ALLGEMEIN" languagecode="1031" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{40fb4606-8898-4c71-93c0-b02bf6de920d}">
+                        <labels>
+                          <label description="Betreff" languagecode="1031" />
+                        </labels>
+                        <control id="subject" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="subject" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{caf06cb9-a11c-4166-a758-41faeedd166d}">
+                        <labels>
+                          <label description="Bezug" languagecode="1031" />
+                        </labels>
+                        <control id="regardingobjectid" classid="{F3015350-44A2-4aa0-97B5-00166532B5E9}" datafieldname="regardingobjectid" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{26348961-b086-4115-bc42-780d0d05c63b}">
+                        <labels>
+                          <label description="Aktivitätsstatus" languagecode="1031" />
+                        </labels>
+                        <control id="statecode" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="statecode" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+                <section showlabel="false" showbar="false" IsUserDefined="0" id="{5faf9822-00cd-4bb8-831d-29f1b34ce26f}">
+                  <labels>
+                    <label description="ANDERE DETAILS" languagecode="1031" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{a47af7a2-afe4-4b35-8b28-2a2513a2e84a}">
+                        <labels>
+                          <label description="Priorität" languagecode="1031" />
+                        </labels>
+                        <control id="prioritycode" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="prioritycode" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{ea7e21ad-8fcd-42b5-a007-9b4d8746c59c}">
+                        <labels>
+                          <label description="Fälligkeitsdatum" languagecode="1031" />
+                        </labels>
+                        <control id="scheduledend" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="scheduledend" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{9af7b328-7561-4249-b817-5e2592b445ea}">
+                        <labels>
+                          <label description="Besitzer" languagecode="1031" />
+                        </labels>
+                        <control id="ownerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ownerid" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+      </tabs>
+    </form>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <LocalizedNames>
+      <LocalizedName description="Informationen" languagecode="1031" />
+    </LocalizedNames>
+  </systemform>
+</forms>

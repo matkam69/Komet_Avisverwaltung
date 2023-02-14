@@ -1,0 +1,863 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_sharepointonline_1": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "komet_SharePointOnlineVerbindungAvisgen"
+        },
+        "api": {
+          "name": "shared_sharepointonline"
+        }
+      },
+      "shared_commondataserviceforapps_1": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "komet_DataverseVerbindungAvisgen"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      },
+      "shared_wordonlinebusiness_1": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "komet_WordOnlineVerbindungAvisgen"
+        },
+        "api": {
+          "name": "shared_wordonlinebusiness"
+        }
+      },
+      "shared_onedriveforbusiness": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "komet_OneDriveforBusinessVerbindungAvisgen"
+        },
+        "api": {
+          "name": "shared_onedriveforbusiness"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "When_a_row_is_added,_modified_or_deleted": {
+          "metadata": {
+            "operationMetadataId": "ace790aa-3366-4732-9310-2b846d1ec154"
+          },
+          "type": "OpenApiConnectionWebhook",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps_1",
+              "operationId": "SubscribeWebhookTrigger",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "subscriptionRequest/message": 4,
+              "subscriptionRequest/entityname": "komet_avis",
+              "subscriptionRequest/scope": 4,
+              "subscriptionRequest/filteringattributes": "komet_avistype,komet_yearofavis,komet_annoucementtext,komet_weekofavis,komet_startdate,komet_enddate"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        }
+      },
+      "actions": {
+        "Get_file_content_impressum": {
+          "runAfter": {
+            "Switch": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "d32d9467-aadd-48d0-8265-c43e84761c6c"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_sharepointonline_1",
+              "operationId": "GetFileContentByPath",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+            },
+            "parameters": {
+              "dataset": "@variables('SPSite')",
+              "path": "/komet_orderfaxadm/@{outputs('Get_Vertreterbestellfax')?['body/komet_name']}_@{variables('SPIDValue')}/Impressum.png",
+              "inferContentType": true
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Get_file_content_signature": {
+          "runAfter": {
+            "Get_file_content_impressum": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "1be312d1-2ceb-4b01-976d-6a39339a0e30"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_sharepointonline_1",
+              "operationId": "GetFileContentByPath",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+            },
+            "parameters": {
+              "dataset": "@variables('SPSite')",
+              "path": "@concat('/komet_orderfaxadm/', concat(concat(concat(outputs('Get_Vertreterbestellfax')?['body/komet_name'], '_')), variables('SPIDValue')),'/Signatur.png')",
+              "inferContentType": true
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Get_Vertreterbestellfax": {
+          "runAfter": {
+            "Get_Firma": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "6c90f437-e147-4c19-8d40-7ad5e8f27724"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps_1",
+              "operationId": "GetItem",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "komet_orderfaxadms",
+              "recordId": "@triggerOutputs()?['body/_komet_salesreporderfax_value']",
+              "$select": "komet_orderfaxadmid,komet_name"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Initialize_SPIDValue": {
+          "runAfter": {
+            "Initialize_SPSite": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "78f40204-6b2a-4092-945a-511328d4bd12"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "SPIDValue",
+                "type": "string",
+                "value": "@{replace(outputs('Get_Vertreterbestellfax')?['body/komet_orderfaxadmid'], '-', '')}"
+              }
+            ]
+          }
+        },
+        "Initialize_WodDocumentPath": {
+          "runAfter": {
+            "Initialize_TemplateIDValue": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "c34dfd1f-fb50-4243-8ccc-69591ebda2d1"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "WordDocumentPath",
+                "type": "string",
+                "value": "/@{outputs('Get_Schablone')?['body/komet_name']}_@{variables('TemplateIDValue')}/AvisTemplate.docx"
+              }
+            ]
+          }
+        },
+        "Populate_a_Microsoft_Word_template": {
+          "runAfter": {
+            "Get_file_content_signature": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "01YR7IKUK2KVXKVQQDORGYD2FOZLUER6CB": "/Testvertreter_458FB4041F64ED119561000D3ADF717D/AvisTest.docx",
+            "operationMetadataId": "dee8464d-2f8e-4d4e-9992-a806188f523b",
+            "01YR7IKUP2WTJSA4IRJJAYOVMPY6QK6QH4": "/Testschablone_7A587F870564ED119561000D3ADF780C/AvisTemplate.docx"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_wordonlinebusiness_1",
+              "operationId": "CreateFileItem",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_wordonlinebusiness"
+            },
+            "parameters": {
+              "source": "https://brasseler365.sharepoint.com/sites/kometdentaldev",
+              "drive": "b!0qIlNN7uxE6BVkaorswCPxsegMK_Q0dIjUC5iOVlnob8MH39jh5WTrO23Yi3MtcT",
+              "file": "@variables('WordDocumentPath')",
+              "dynamicFileSchema": {
+                "1297885110": "@variables('announcementText')",
+                "1443500161": "@body('Get_file_content_signature')",
+                "1530999565": "@body('Get_file_content_impressum')",
+                "1742373346": "@outputs('Get_Firma')?['body/address1_city']",
+                "1838810801": "@outputs('Get_Firma')?['body/address1_postalcode']",
+                "2039610783": "@outputs('Get_Firma')?['body/address1_line1']",
+                "-1296362064": "@outputs('Get_Firma')?['body/name']",
+                "-1747257345": "@variables('announcementText')"
+              }
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Create_file": {
+          "runAfter": {
+            "Populate_a_Microsoft_Word_template": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "e13e35da-1613-4e90-a15c-7c4c43e763d4"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_onedriveforbusiness",
+              "operationId": "CreateFile",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_onedriveforbusiness"
+            },
+            "parameters": {
+              "folderPath": "/Avisierungen (Komet)/kometdentaldev",
+              "name": "@{triggerOutputs()?['body/activityid']}.docx",
+              "body": "@body('Populate_a_Microsoft_Word_template')"
+            },
+            "authentication": "@parameters('$authentication')"
+          },
+          "runtimeConfiguration": {
+            "contentTransfer": {
+              "transferMode": "Chunked"
+            }
+          }
+        },
+        "Convert_file_PDF": {
+          "runAfter": {
+            "Create_file": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "11cb07fd-bac0-4d0a-ac03-4930c056218f"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_onedriveforbusiness",
+              "operationId": "ConvertFile",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_onedriveforbusiness"
+            },
+            "parameters": {
+              "id": "@outputs('Create_file')?['body/Id']",
+              "type": "PDF"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Get_Schablone": {
+          "runAfter": {
+            "Get_Vertreterbestellfax": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "a0e0bdb0-37f0-4e74-a458-ec614bb63cf4"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps_1",
+              "operationId": "GetItem",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "komet_avistemplates",
+              "recordId": "@triggerOutputs()?['body/_komet_avistemplate_value']",
+              "$select": "komet_name,komet_avistemplateid"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Initialize_TemplateIDValue": {
+          "runAfter": {
+            "Initialize_SPIDValue": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "df541091-20f6-4eba-a6cb-db5131c91d86"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "TemplateIDValue",
+                "type": "string",
+                "value": "@{replace(outputs('Get_Schablone')?['body/komet_avistemplateid'],'-', '')}"
+              }
+            ]
+          }
+        },
+        "Get_Firma": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "739e9194-8542-4228-b02a-d666a691c333"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps_1",
+              "operationId": "GetItem",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "accounts",
+              "recordId": "@triggerOutputs()?['body/_regardingobjectid_value']",
+              "$select": "address1_city,address1_line1,name,address1_country,accountnumber,address1_postalcode"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Initialize_subfolderName": {
+          "runAfter": {
+            "Delete_file": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "23e6e8ae-5d9f-4dea-bcc4-ddf29641146c"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "subFolderName",
+                "type": "string",
+                "value": "Avisierungen"
+              }
+            ]
+          }
+        },
+        "Initialize_folderPath": {
+          "runAfter": {
+            "Initialize_subfolderName": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "ccdc3a58-1029-4463-962a-7f6a6ec599a3"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "folderPath",
+                "type": "string",
+                "value": "/komet_orderfaxadm/@{outputs('Get_Vertreterbestellfax')?['body/komet_name']}_@{variables('SPIDValue')}"
+              }
+            ]
+          }
+        },
+        "List_folder": {
+          "runAfter": {
+            "Initialize_subfolderPath": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "fd087f80-99ab-403f-adcb-14524a753c04"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_sharepointonline_1",
+              "operationId": "ListFolder",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+            },
+            "parameters": {
+              "dataset": "@variables('SPSite')",
+              "id": "@encodeUriComponent(variables('folderPath'))"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Filter_array": {
+          "runAfter": {
+            "List_folder": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "53694b50-dd66-4891-98a3-6f364b78d9bf"
+          },
+          "type": "Query",
+          "inputs": {
+            "from": "@body('List_folder')",
+            "where": "@equals(item()?['Name'], variables('subFolderName'))"
+          }
+        },
+        "Condition": {
+          "actions": {},
+          "runAfter": {
+            "Filter_array": [
+              "Succeeded"
+            ]
+          },
+          "else": {
+            "actions": {
+              "Create_new_folder": {
+                "runAfter": {},
+                "metadata": {
+                  "operationMetadataId": "be865619-e1c4-46ed-b818-c058cd64dc05"
+                },
+                "type": "OpenApiConnection",
+                "inputs": {
+                  "host": {
+                    "connectionName": "shared_sharepointonline_1",
+                    "operationId": "CreateNewFolder",
+                    "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                  },
+                  "parameters": {
+                    "dataset": "https://brasseler365.sharepoint.com/sites/kometdentaldev",
+                    "table": "f8b7ae48-ea29-4589-af2a-b7ff01489d1d",
+                    "parameters/path": "@{variables('folderPath')}/@{variables('subFolderName')}"
+                  },
+                  "authentication": "@parameters('$authentication')"
+                }
+              }
+            }
+          },
+          "expression": {
+            "greater": [
+              "@length(body('Filter_array'))",
+              0
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "47ebdcb9-087c-4752-8f1c-4eada3192165"
+          },
+          "type": "If"
+        },
+        "Initialize_SPSite": {
+          "runAfter": {
+            "Initialize_announcementText": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "222747f7-9a64-4dbe-aef0-c5eed628dcb3"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "SPSite",
+                "type": "string",
+                "value": "https://brasseler365.sharepoint.com/sites/kometdentaldev"
+              }
+            ]
+          }
+        },
+        "Initialize_announcementText": {
+          "runAfter": {
+            "Get_Schablone": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "16085581-d006-4da4-85ba-9aa7442e691a"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "announcementText",
+                "type": "string",
+                "value": "in den nächsten Tagen"
+              }
+            ]
+          }
+        },
+        "Switch": {
+          "runAfter": {
+            "Initialize_WodDocumentPath": [
+              "Succeeded"
+            ]
+          },
+          "cases": {
+            "Case_KW": {
+              "case": 637840003,
+              "actions": {
+                "Set_variable": {
+                  "runAfter": {},
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "announcementText",
+                    "value": "in der KW @{triggerOutputs()?['body/komet_weekofavis']}"
+                  }
+                }
+              }
+            },
+            "Case_KW1": {
+              "case": 637840004,
+              "actions": {
+                "Set_variable_2": {
+                  "runAfter": {},
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "announcementText",
+                    "value": "in der KW @{triggerOutputs()?['body/komet_weekofavis']}/@{add(1,int(triggerOutputs()?['body/komet_weekofavis']))}"
+                  }
+                }
+              }
+            },
+            "Case_Termin": {
+              "case": 637840000,
+              "actions": {
+                "Set_variable_4": {
+                  "runAfter": {},
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "announcementText",
+                    "value": "am @{formatDateTime(triggerOutputs()?['body/komet_startdate'], 'dd.MM.yyyy')} um @{formatDateTime(triggerOutputs()?['body/komet_startdate'], 'hh:mm')} Uhr"
+                  }
+                }
+              }
+            },
+            "Case_Datum": {
+              "case": 637840001,
+              "actions": {
+                "Set_variable_5": {
+                  "runAfter": {},
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "announcementText",
+                    "value": "am @{formatDateTime(triggerOutputs()?['body/komet_startdate'], 'dd.MM.yyyy')}"
+                  }
+                }
+              }
+            },
+            "Case_Zeitraum": {
+              "case": 637840005,
+              "actions": {
+                "Set_variable_6": {
+                  "runAfter": {},
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "announcementText",
+                    "value": "in der Zeit vom @{formatDateTime(triggerOutputs()?['body/komet_startdate'], 'dd.MM.yyyy')} - @{formatDateTime(triggerOutputs()?['body/komet_enddate'], 'dd.MM.yyyy')}"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "actions": {
+              "Set_variable_3": {
+                "runAfter": {},
+                "type": "SetVariable",
+                "inputs": {
+                  "name": "announcementText",
+                  "value": "in den nächsten Tagen"
+                }
+              }
+            }
+          },
+          "expression": "@triggerOutputs()?['body/komet_avistype']",
+          "metadata": {
+            "operationMetadataId": "ffb4b6b7-0a5d-40a2-85d3-829d2a63c67c"
+          },
+          "type": "Switch"
+        },
+        "Delete_file": {
+          "runAfter": {
+            "Convert_file_PDF": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "38892577-ac73-4e39-b7a0-8ec5cce1e433"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_onedriveforbusiness",
+              "operationId": "DeleteFile",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_onedriveforbusiness"
+            },
+            "parameters": {
+              "id": "@outputs('Create_file')?['body/Id']"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "List_subfolder": {
+          "runAfter": {
+            "Condition": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "bc63f145-5107-4440-a760-fbcad2df233c"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_sharepointonline_1",
+              "operationId": "ListFolder",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+            },
+            "parameters": {
+              "dataset": "@variables('SPSite')",
+              "id": "@encodeUriComponent(variables('subFolderPath'))"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Initialize_subfolderPath": {
+          "runAfter": {
+            "Initialize_folderPath": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "f07df587-844e-4445-a64e-f7329e728f8c"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "subFolderPath",
+                "type": "string",
+                "value": "/komet_orderfaxadm/@{outputs('Get_Vertreterbestellfax')?['body/komet_name']}_@{variables('SPIDValue')}/@{variables('subFolderName')}"
+              }
+            ]
+          }
+        },
+        "Filter_array_2": {
+          "runAfter": {
+            "Initialize_PDFFileName": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "b1dc1959-fa84-4537-b548-55f9fb753bdd"
+          },
+          "type": "Query",
+          "inputs": {
+            "from": "@body('List_subfolder')",
+            "where": "@equals(item()?['Name'], variables('PDFFileName'))"
+          }
+        },
+        "Initialize_PDFFileName": {
+          "runAfter": {
+            "List_subfolder": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "90072fea-cfcb-4e4b-8551-b585daab000d"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "PDFFileName",
+                "type": "string",
+                "value": "@{outputs('Get_Firma')?['body/accountnumber']}_@{triggerOutputs()?['body/subject']}.pdf"
+              }
+            ]
+          }
+        },
+        "Condition_2": {
+          "actions": {
+            "Get_file_metadata_using_path": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "51c7a64c-0ae9-452f-8217-269dfa607742"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline_1",
+                  "operationId": "GetFileMetadataByPath",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@variables('SPSite')",
+                  "path": "@{variables('folderPath')}/@{variables('subFolderName')}/@{variables('PDFFileName')}"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Check_out_file": {
+              "runAfter": {
+                "Get_file_metadata_using_path": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "3758111c-89ae-42f2-a1fb-cdfa5abc9c1f"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline_1",
+                  "operationId": "CheckOutFile",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "https://brasseler365.sharepoint.com/sites/kometdentaldev",
+                  "table": "f8b7ae48-ea29-4589-af2a-b7ff01489d1d",
+                  "id": "@outputs('Get_file_metadata_using_path')?['body/ItemId']"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Check_in_file": {
+              "runAfter": {
+                "Update_file": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "cf03fb85-4fe3-4d87-8fd6-9a73e784c624"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline_1",
+                  "operationId": "CheckInFile",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@variables('SPSite')",
+                  "table": "f8b7ae48-ea29-4589-af2a-b7ff01489d1d",
+                  "id": "@outputs('Get_file_metadata_using_path')?['body/ItemId']",
+                  "parameter/comment": "check in von Avisgen",
+                  "parameter/checkinType": 1
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Update_file": {
+              "runAfter": {
+                "Check_out_file": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "f3deeff3-42ec-4234-b5c9-2812b54c622f"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_sharepointonline_1",
+                  "operationId": "UpdateFile",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                },
+                "parameters": {
+                  "dataset": "@variables('SPSite')",
+                  "id": "@{variables('folderPath')}/@{variables('subFolderName')}/@{variables('PDFFileName')}",
+                  "body": "@body('Convert_file_PDF')"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            }
+          },
+          "runAfter": {
+            "Filter_array_2": [
+              "Succeeded"
+            ]
+          },
+          "else": {
+            "actions": {
+              "Create_AvidDoc": {
+                "runAfter": {},
+                "metadata": {
+                  "operationMetadataId": "5d866d65-a2cc-42b4-aa7e-b9c7b8810443"
+                },
+                "type": "OpenApiConnection",
+                "inputs": {
+                  "host": {
+                    "connectionName": "shared_sharepointonline_1",
+                    "operationId": "CreateFile",
+                    "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+                  },
+                  "parameters": {
+                    "dataset": "@variables('SPSite')",
+                    "folderPath": "@{variables('folderPath')}/@{variables('subFolderName')}",
+                    "name": "@{outputs('Get_Firma')?['body/accountnumber']}_@{triggerOutputs()?['body/subject']}.pdf",
+                    "body": "@body('Convert_file_PDF')"
+                  },
+                  "authentication": "@parameters('$authentication')"
+                },
+                "runtimeConfiguration": {
+                  "contentTransfer": {
+                    "transferMode": "Chunked"
+                  }
+                }
+              },
+              "Update_a_row": {
+                "runAfter": {
+                  "Create_AvidDoc": [
+                    "Succeeded"
+                  ]
+                },
+                "metadata": {
+                  "operationMetadataId": "ee38697d-7cdf-47ed-963b-72761d180465"
+                },
+                "type": "OpenApiConnection",
+                "inputs": {
+                  "host": {
+                    "connectionName": "shared_commondataserviceforapps_1",
+                    "operationId": "UpdateRecord",
+                    "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                  },
+                  "parameters": {
+                    "entityName": "komet_avises",
+                    "recordId": "@triggerOutputs()?['body/activityid']",
+                    "item/komet_documenturl": "@{variables('SPSite')}/@{outputs('Create_AvidDoc')?['body/Path']}"
+                  },
+                  "authentication": "@parameters('$authentication')"
+                }
+              }
+            }
+          },
+          "expression": {
+            "greater": [
+              "@length(body('Filter_array_2'))",
+              0
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "ccde8f60-5eee-4ede-9f43-b57afe81fe04"
+          },
+          "type": "If"
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

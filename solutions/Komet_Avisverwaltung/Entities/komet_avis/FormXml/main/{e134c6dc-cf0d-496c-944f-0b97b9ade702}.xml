@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <systemform>
+    <formid>{e134c6dc-cf0d-496c-944f-0b97b9ade702}</formid>
+    <IntroducedVersion>1.0.0.0</IntroducedVersion>
+    <FormPresentation>1</FormPresentation>
+    <FormActivationState>1</FormActivationState>
+    <form headerdensity="HighWithControls">
+      <tabs>
+        <tab verticallayout="true" id="{c8168eed-5ba1-4fda-b236-805fc7bfc668}" IsUserDefined="1">
+          <labels>
+            <label description="Allgemein" languagecode="1031" />
+          </labels>
+          <columns>
+            <column width="33%">
+              <sections>
+                <section showlabel="false" showbar="false" IsUserDefined="0" id="{a551db96-5da0-4351-91ec-7470eebbcea9}">
+                  <labels>
+                    <label description="Allgemein" languagecode="1031" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{c100f9b0-e824-4630-b062-a20eb0e91596}">
+                        <labels>
+                          <label description="Betreff" languagecode="1031" />
+                        </labels>
+                        <control id="subject" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="subject" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{47f910af-44c1-4217-9da9-98a2b3af5887}">
+                        <labels>
+                          <label description="Besitzer" languagecode="1031" />
+                        </labels>
+                        <control id="ownerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ownerid" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{f08743dd-f9b1-4192-9fc4-64d7aaa734c5}">
+                        <labels>
+                          <label description="Bezug" languagecode="1031" />
+                        </labels>
+                        <control id="regardingobjectid" classid="{F3015350-44A2-4aa0-97B5-00166532B5E9}" datafieldname="regardingobjectid" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{d0255284-6682-4bfa-8ccb-7b04a30219d3}" locklevel="0" colspan="1" rowspan="1">
+                        <labels>
+                          <label description="Avisierungstyp" languagecode="1031" />
+                        </labels>
+                        <control id="komet_avistype" classid="{3EF39988-22BB-4F0B-BBBE-64B5A3748AEE}" datafieldname="komet_avistype" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{34dc87f3-4108-4bf3-99f9-6311ac07f3b9}" locklevel="0" colspan="1" rowspan="1">
+                        <labels>
+                          <label description="Woche der Avisierung" languagecode="1031" />
+                        </labels>
+                        <control id="komet_weekofavis" classid="{C6D124CA-7EDA-4A60-AEA9-7FB8D318B68F}" datafieldname="komet_weekofavis" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{119fc1b3-8715-42f0-8b60-f3c576452454}" locklevel="0" colspan="1" rowspan="1">
+                        <labels>
+                          <label description="Jahr der Avisierung" languagecode="1031" />
+                        </labels>
+                        <control id="komet_yearofavis" classid="{C6D124CA-7EDA-4A60-AEA9-7FB8D318B68F}" datafieldname="komet_yearofavis" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{eaaddea9-aec2-4a54-abfb-bed32a1ec544}" locklevel="0" colspan="1" rowspan="1">
+                        <labels>
+                          <label description="Geplanter Start" languagecode="1031" />
+                        </labels>
+                        <control id="komet_startdate" classid="{5B773807-9FB2-42DB-97C3-7A91EFF8ADFF}" datafieldname="komet_startdate" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{b034680d-f403-4d85-aa91-ce9aefbe86a7}" locklevel="0" colspan="1" rowspan="1">
+                        <labels>
+                          <label description="Geplantes Ende" languagecode="1031" />
+                        </labels>
+                        <control id="komet_enddate" classid="{5B773807-9FB2-42DB-97C3-7A91EFF8ADFF}" datafieldname="komet_enddate" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{3678b1ef-498e-4073-bd42-3096a6ddbe72}" locklevel="0" colspan="1" rowspan="1">
+                        <labels>
+                          <label description="Geplante Dauer" languagecode="1031" />
+                        </labels>
+                        <control id="scheduleddurationminutes" classid="{AA987274-CE4E-4271-A803-66164311A958}" datafieldname="scheduleddurationminutes" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{655e11c1-c9e6-45ce-a08c-1430e0453302}" locklevel="0" colspan="1" rowspan="1">
+                        <labels>
+                          <label description="Schablonen" languagecode="1031" />
+                        </labels>
+                        <control id="komet_avistemplate" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="komet_avistemplate" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{801db308-ad10-472d-b17b-d5ca30dd36c4}" locklevel="0" colspan="1" rowspan="1">
+                        <labels>
+                          <label description="Vertreterbestellfax" languagecode="1031" />
+                        </labels>
+                        <control id="komet_salesreporderfax" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="komet_salesreporderfax" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{b47ade01-4c2f-4ca4-b745-f162e8b798b7}" locklevel="0" colspan="1" rowspan="1">
+                        <labels>
+                          <label description="Avisdokument" languagecode="1031" />
+                        </labels>
+                        <control id="komet_documenturl" classid="{71716B6C-711E-476C-8AB8-5D11542BFB47}" datafieldname="komet_documenturl" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{f87e72bc-0846-475b-9a62-c91da54dcd73}" locklevel="0" colspan="1" rowspan="1">
+                        <labels>
+                          <label description="Terminankündigung" languagecode="1031" />
+                        </labels>
+                        <control id="komet_annoucementtext" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="komet_annoucementtext" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{5ce314fe-25d3-4fec-b18f-8fe035cddd03}" locklevel="0" colspan="1" rowspan="1">
+                        <labels>
+                          <label description="Freigabe " languagecode="1031" />
+                        </labels>
+                        <control id="komet_released" classid="{F9A8A302-114E-466A-B582-6771B2AE0D92}" datafieldname="komet_released" disabled="false" uniqueid="{947549b7-60f6-4710-9da1-bda9dc90993c}" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+            <column width="66%">
+              <sections>
+                <section showlabel="false" showbar="false" id="{75f58401-86fc-4296-8cb2-8369c3dbe041}" IsUserDefined="0" height="auto">
+                  <labels>
+                    <label description="Notizen" languagecode="1031" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell showlabel="false" rowspan="15" auto="false" id="{480162e3-0e5f-4d12-818d-a0e89d12703d}">
+                        <labels>
+                          <label description="Notiztext" languagecode="1031" />
+                        </labels>
+                        <control id="notescontrol" classid="{06375649-c143-495e-a496-c962e5b4488e}">
+                          <parameters>
+                            <DefaultTabId>NotesTab</DefaultTabId>
+                          </parameters>
+                        </control>
+                      </cell>
+                    </row>
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row height="auto" />
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+      </tabs>
+      <header id="{24d3d2b9-85a7-4cc8-813f-23fdfcb806cf}" celllabelposition="Top" columns="1111" labelwidth="115">
+        <rows>
+          <row>
+            <cell id="{4b0b2884-1cef-471e-86f5-8278bc767aa0}">
+              <labels>
+                <label description="Priorität" languagecode="1031" />
+              </labels>
+              <control id="header_prioritycode" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="prioritycode" disabled="false" />
+            </cell>
+            <cell id="{ec954bf0-c829-4c73-b0e5-c3ae4b9fd49c}">
+              <labels>
+                <label description="Fälligkeitsdatum" languagecode="1031" />
+              </labels>
+              <control id="header_scheduledend" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="scheduledend" disabled="false" />
+            </cell>
+            <cell id="{ff0464d2-09d0-4345-b3d0-c96d8206cc8e}">
+              <labels>
+                <label description="Aktivitätsstatus" languagecode="1031" />
+              </labels>
+              <control id="header_statecode" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="statecode" disabled="false" />
+            </cell>
+            <cell id="{a00e750a-8a4d-40eb-83f2-dc627a0b9426}">
+              <labels>
+                <label description="Besitzer" languagecode="1031" />
+              </labels>
+              <control id="header_ownerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ownerid" disabled="false" />
+            </cell>
+          </row>
+        </rows>
+      </header>
+      <footer id="{5de58190-ecc0-4a4c-99f7-6e928609db7c}" celllabelposition="Top" columns="111" labelwidth="115" celllabelalignment="Left">
+        <rows>
+          <row>
+            <cell id="{bb078829-4024-4700-b530-fd02a7db2e40}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1031" />
+              </labels>
+            </cell>
+            <cell id="{41470d0d-c928-4d8a-bf2a-f9970b03b61c}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1031" />
+              </labels>
+            </cell>
+            <cell id="{8d0c8cf6-f1a1-4ce7-9873-469947ae451b}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1031" />
+              </labels>
+            </cell>
+          </row>
+        </rows>
+      </footer>
+      <DisplayConditions Order="0" FallbackForm="true">
+        <Everyone />
+      </DisplayConditions>
+      <controlDescriptions>
+        <controlDescription forControl="{947549b7-60f6-4710-9da1-bda9dc90993c}">
+          <customControl id="{67FAC785-CD58-4F9F-ABB3-4B7DDC6ED5ED}">
+            <parameters>
+              <datafieldname>komet_released</datafieldname>
+            </parameters>
+          </customControl>
+          <customControl formFactor="0" name="MscrmControls.FieldControls.ToggleControl">
+            <parameters>
+              <value type="TwoOptions">komet_released</value>
+            </parameters>
+          </customControl>
+          <customControl formFactor="2" name="MscrmControls.FieldControls.ToggleControl">
+            <parameters>
+              <value type="TwoOptions">komet_released</value>
+            </parameters>
+          </customControl>
+          <customControl formFactor="1" name="MscrmControls.FieldControls.ToggleControl">
+            <parameters>
+              <value type="TwoOptions">komet_released</value>
+            </parameters>
+          </customControl>
+        </controlDescription>
+      </controlDescriptions>
+    </form>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <LocalizedNames>
+      <LocalizedName description="Informationen" languagecode="1031" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="Ein Formular für diese Entität." languagecode="1031" />
+    </Descriptions>
+  </systemform>
+</forms>

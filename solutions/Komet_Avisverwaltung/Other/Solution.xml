@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ImportExportXml version="9.2.23013.194" SolutionPackageVersion="9.2" languagecode="1031" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SolutionManifest>
+    <UniqueName>Komet_Avisverwaltung</UniqueName>
+    <LocalizedNames>
+      <LocalizedName description="Komet Avisverwaltung" languagecode="1031" />
+    </LocalizedNames>
+    <Descriptions />
+    <Version>1.0.0.0</Version>
+    <Managed>0</Managed>
+    <Publisher>
+      <UniqueName>Komet</UniqueName>
+      <LocalizedNames>
+        <LocalizedName description="Standardherausgeber für Gebrüder Brasseler" languagecode="1031" />
+      </LocalizedNames>
+      <Descriptions />
+      <EMailAddress xsi:nil="true"></EMailAddress>
+      <SupportingWebsiteUrl xsi:nil="true"></SupportingWebsiteUrl>
+      <CustomizationPrefix>komet</CustomizationPrefix>
+      <CustomizationOptionValuePrefix>63784</CustomizationOptionValuePrefix>
+      <Addresses>
+        <Address>
+          <AddressNumber>1</AddressNumber>
+          <AddressTypeCode>1</AddressTypeCode>
+          <City xsi:nil="true"></City>
+          <County xsi:nil="true"></County>
+          <Country xsi:nil="true"></Country>
+          <Fax xsi:nil="true"></Fax>
+          <FreightTermsCode xsi:nil="true"></FreightTermsCode>
+          <ImportSequenceNumber xsi:nil="true"></ImportSequenceNumber>
+          <Latitude xsi:nil="true"></Latitude>
+          <Line1 xsi:nil="true"></Line1>
+          <Line2 xsi:nil="true"></Line2>
+          <Line3 xsi:nil="true"></Line3>
+          <Longitude xsi:nil="true"></Longitude>
+          <Name xsi:nil="true"></Name>
+          <PostalCode xsi:nil="true"></PostalCode>
+          <PostOfficeBox xsi:nil="true"></PostOfficeBox>
+          <PrimaryContactName xsi:nil="true"></PrimaryContactName>
+          <ShippingMethodCode>1</ShippingMethodCode>
+          <StateOrProvince xsi:nil="true"></StateOrProvince>
+          <Telephone1 xsi:nil="true"></Telephone1>
+          <Telephone2 xsi:nil="true"></Telephone2>
+          <Telephone3 xsi:nil="true"></Telephone3>
+          <TimeZoneRuleVersionNumber xsi:nil="true"></TimeZoneRuleVersionNumber>
+          <UPSZone xsi:nil="true"></UPSZone>
+          <UTCOffset xsi:nil="true"></UTCOffset>
+          <UTCConversionTimeZoneCode xsi:nil="true"></UTCConversionTimeZoneCode>
+        </Address>
+        <Address>
+          <AddressNumber>2</AddressNumber>
+          <AddressTypeCode>1</AddressTypeCode>
+          <City xsi:nil="true"></City>
+          <County xsi:nil="true"></County>
+          <Country xsi:nil="true"></Country>
+          <Fax xsi:nil="true"></Fax>
+          <FreightTermsCode xsi:nil="true"></FreightTermsCode>
+          <ImportSequenceNumber xsi:nil="true"></ImportSequenceNumber>
+          <Latitude xsi:nil="true"></Latitude>
+          <Line1 xsi:nil="true"></Line1>
+          <Line2 xsi:nil="true"></Line2>
+          <Line3 xsi:nil="true"></Line3>
+          <Longitude xsi:nil="true"></Longitude>
+          <Name xsi:nil="true"></Name>
+          <PostalCode xsi:nil="true"></PostalCode>
+          <PostOfficeBox xsi:nil="true"></PostOfficeBox>
+          <PrimaryContactName xsi:nil="true"></PrimaryContactName>
+          <ShippingMethodCode>1</ShippingMethodCode>
+          <StateOrProvince xsi:nil="true"></StateOrProvince>
+          <Telephone1 xsi:nil="true"></Telephone1>
+          <Telephone2 xsi:nil="true"></Telephone2>
+          <Telephone3 xsi:nil="true"></Telephone3>
+          <TimeZoneRuleVersionNumber xsi:nil="true"></TimeZoneRuleVersionNumber>
+          <UPSZone xsi:nil="true"></UPSZone>
+          <UTCOffset xsi:nil="true"></UTCOffset>
+          <UTCConversionTimeZoneCode xsi:nil="true"></UTCConversionTimeZoneCode>
+        </Address>
+      </Addresses>
+    </Publisher>
+    <RootComponents>
+      <RootComponent type="1" schemaName="komet_avis" behavior="0" />
+      <RootComponent type="1" schemaName="komet_avistemplate" behavior="0" />
+      <RootComponent type="1" schemaName="komet_orderfaxadm" behavior="1" />
+      <RootComponent type="29" id="{4c3ca6f0-92a8-ed11-aad1-0022489fd066}" behavior="0" />
+      <RootComponent type="62" schemaName="komet_Avisverwaltung" behavior="0" />
+      <RootComponent type="80" schemaName="komet_Avisverwaltung" behavior="0" />
+    </RootComponents>
+    <MissingDependencies>
+      <MissingDependency>
+        <Required type="1" schemaName="komet_orderfaxadm" displayName="Vertreterbestellfax" solution="Komet_BestellfaxVerwaltung (1.0.0.10)" />
+        <Dependent type="1" schemaName="komet_orderfaxadm" displayName="Vertreterbestellfax" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="2" schemaName="komet_name" displayName="Name" parentSchemaName="komet_orderfaxadm" parentDisplayName="Vertreterbestellfax" solution="Komet_BestellfaxVerwaltung (1.0.0.10)" />
+        <Dependent type="10" schemaName="komet_komet_avis_salesreporderfax_komet_orderfa" displayName="komet_komet_avis_salesreporderfax_komet_orderfa" parentSchemaName="komet_orderfaxadm" parentDisplayName="Vertreterbestellfax" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="2" schemaName="komet_orderfaxadmid" displayName="Vertreterbestellfax" parentSchemaName="komet_orderfaxadm" parentDisplayName="Vertreterbestellfax" solution="Komet_BestellfaxVerwaltung (1.0.0.10)" />
+        <Dependent type="10" schemaName="komet_komet_avis_salesreporderfax_komet_orderfa" displayName="komet_komet_avis_salesreporderfax_komet_orderfa" parentSchemaName="komet_orderfaxadm" parentDisplayName="Vertreterbestellfax" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="61" schemaName="msdyn_/Images/AppModule_Default_Icon.png" displayName="msdyn_/Images/AppModule_Default_Icon.png" solution="AppModuleWebResources (2.5)" />
+        <Dependent type="80" schemaName="komet_Avisverwaltung" displayName="Avisverwaltung" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="66" schemaName="MscrmControls.FieldControls.ToggleControl" displayName="MscrmControls.FieldControls.ToggleControl" solution="BaseCustomControlsCore (9.0.2301.3010)" />
+        <Dependent type="60" displayName="Informationen" parentDisplayName="Avisierung (Komet)" id="{e134c6dc-cf0d-496c-944f-0b97b9ade702}" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="9" schemaName="komet_avistypecode" displayName="Avisierungstyp" solution="Komet_BestellfaxVerwaltung (1.0.0.10)" />
+        <Dependent type="2" schemaName="komet_avistype" displayName="Avisierungstyp" parentSchemaName="komet_avis" parentDisplayName="Avisierung (Komet)" />
+      </MissingDependency>
+    </MissingDependencies>
+  </SolutionManifest>
+</ImportExportXml>
